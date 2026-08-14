@@ -43,7 +43,7 @@ export default function Hero() {
             "
           >
             <img
-  src="/profile.jpg"
+  src="/profile.JPG"
   alt="Phoemela Kyle Sebastian"
   className="
     h-full
