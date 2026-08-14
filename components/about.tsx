@@ -35,7 +35,7 @@ export default function About() {
           ========================== */}
           <div className="relative aspect-square rounded-2xl overflow-hidden border border-border">
             <Image
-              src="/profile.jpg"
+              src="/profile.JPG"
               alt="My Profile"
               fill
               className="object-contain object-center"

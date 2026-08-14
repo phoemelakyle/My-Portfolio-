@@ -43,14 +43,14 @@ export default function Hero() {
             "
           >
             <img
-              src="/profile.jpg"
-              alt="Phoemela Kyle Sebastian"
-              className="
-                h-full
-                w-full
-                object-cover
-              "
-            />
+  src="/profile.jpg"
+  alt="Phoemela Kyle Sebastian"
+  className="
+    h-full
+    w-full
+    object-cover
+  "
+/>
           </div>
         </div>
 
