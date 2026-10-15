@@ -128,51 +128,65 @@ export default function Hero() {
             <div className="mb-8">
               <div className="relative mx-auto w-full max-w-[540px] lg:mx-0">
 
-                {/* Cover */}
-                <div className="group relative h-36 w-[120%] overflow-hidden rounded-2xl border border-purple-200/60 bg-gradient-to-br from-[#211442] via-purple-800 to-fuchsia-600 shadow-lg shadow-purple-900/10 sm:h-44">
-                  {/* Gradient glow */}
-                  <div className="absolute -right-10 -top-20 h-56 w-56 rounded-full bg-fuchsia-400/30 blur-3xl" />
 
-                  <div className="absolute -bottom-20 left-1/3 h-48 w-48 rounded-full bg-purple-400/30 blur-3xl" />
+{/* Cover */}
+<div
+  className="
+    group relative
+    h-36 sm:h-44
+    w-full sm:w-[120%]
+    shrink-0
+    overflow-hidden
+    rounded-2xl
+    border border-purple-200/60
+    bg-gradient-to-br from-[#211442] via-purple-800 to-fuchsia-600
+    shadow-lg shadow-purple-900/10
+  "
+>
+  {/* Gradient glow */}
+  <div className="absolute -right-10 -top-20 h-56 w-56 rounded-full bg-fuchsia-400/30 blur-3xl" />
 
-                  {/* Dot pattern */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 opacity-20"
-                    style={{
-                      backgroundImage:
-                        'radial-gradient(rgba(255,255,255,0.9) 0.8px, transparent 0.8px)',
-                      backgroundSize: '18px 18px',
-                    }}
-                  />
+  <div className="absolute -bottom-20 left-1/3 h-48 w-48 rounded-full bg-purple-400/30 blur-3xl" />
 
-{/* Decorative circles */}
-<div className="absolute -right-5 top-5 h-32 w-32 rounded-full border border-white/20 sm:right-12 sm:h-40 sm:w-40" />
+  {/* Dot pattern */}
+  <div
+    aria-hidden="true"
+    className="absolute inset-0 opacity-20"
+    style={{
+      backgroundImage:
+        'radial-gradient(rgba(255,255,255,0.9) 0.8px, transparent 0.8px)',
+      backgroundSize: '18px 18px',
+    }}
+  />
 
-<div className="absolute -right-1 top-9 h-24 w-24 rounded-full border border-white/15 sm:right-16 sm:top-9 sm:h-32 sm:w-32" />
+  {/* Decorative circles */}
+  <div className="absolute -right-5 top-5 h-32 w-32 rounded-full border border-white/20 sm:right-12 sm:h-40 sm:w-40" />
 
-{/* Cover text */}
-<div className="absolute inset-0 flex items-center justify-end px-5 sm:px-8">
-  <div className="relative z-10 max-w-[70%] text-right">
-    <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-purple-100 backdrop-blur-md sm:text-[10px]">
-      <Sparkles className="h-3 w-3" />
-      Software Developer
+  <div className="absolute -right-1 top-9 h-24 w-24 rounded-full border border-white/15 sm:right-16 sm:top-9 sm:h-32 sm:w-32" />
+
+  {/* Cover text */}
+  <div className="absolute inset-0 flex items-center justify-end px-3 sm:px-8">
+    <div className="relative z-10 max-w-[95%] text-right sm:max-w-[70%]">
+      <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-purple-100 backdrop-blur-md sm:text-[10px] sm:tracking-[0.16em]">
+        <Sparkles className="h-3 w-3 shrink-0" />
+        Software Developer
+      </div>
+
+      <p className="text-lg font-black tracking-tight text-white sm:text-2xl">
+        Build. Design.
+      </p>
+
+      <p className="text-lg font-black tracking-tight text-purple-200 sm:text-2xl">
+        Automate. Innovate.
+      </p>
+
+      <p className="mt-1 text-[9px] text-white/70 sm:text-xs">
+        Web Development · AI & Data · UI/UX
+      </p>
     </div>
-
-    <p className="text-lg font-black tracking-tight text-white sm:text-2xl">
-      Build. Design.
-    </p>
-
-    <p className="text-lg font-black tracking-tight text-purple-200 sm:text-2xl">
-      Automate. Innovate.
-    </p>
-
-    <p className="mt-1 text-[10px] text-white/70 sm:text-xs">
-      Web Development · AI & Data · UI/UX
-    </p>
   </div>
 </div>
-</div>
+
 
 
 {/* Overlapping profile picture and education badge */}
