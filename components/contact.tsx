@@ -1,5 +1,7 @@
-"use client"
 
+'use client'
+
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import {
   Mail,
   Code2,
@@ -9,39 +11,56 @@ import {
   Clock3,
   ArrowUpRight,
   CheckCircle2,
-} from "lucide-react"
-import { useState } from "react"
+  Sparkles,
+  Zap,
+  ShieldCheck,
+  Bot,
+  ArrowRight,
+} from 'lucide-react'
 
-/* =========================
-   LINKEDIN ICON
-========================= */
-function LinkedInIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V8.99h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.29zM5.32 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM3.54 8.99H7.1v11.46H3.54V8.99zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z" />
-    </svg>
-  )
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
+
+type FormData = {
+  name: string
+  email: string
+  message: string
 }
 
+const socialLinks = [
+  {
+    icon: Mail,
+    label: 'Email',
+    description: "Let's start a conversation",
+    href: 'mailto:phoemelakylesebastian@gmail.com',
+    iconStyle: 'bg-purple-50 text-purple-600 group-hover:bg-purple-100',
+  },
+  {
+    icon: FaLinkedin,
+    label: 'LinkedIn',
+    description: 'Connect professionally',
+    href: 'https://www.linkedin.com/in/phoemela-kyle-sebastian-358a00349/',
+    iconStyle: 'bg-violet-50 text-violet-600 group-hover:bg-violet-100',
+  },
+  {
+    icon: FaGithub,
+    label: 'GitHub',
+    description: 'Explore my repositories',
+    href: 'https://github.com/phoemelakyle',
+    iconStyle: 'bg-slate-100 text-slate-700 group-hover:bg-slate-200',
+  },
+]
+
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    message: '',
   })
 
-  const [submitted, setSubmitted] = useState(false)
+  const [isOpeningEmail, setIsOpeningEmail] = useState(false)
 
-  /* =========================
-     FORM CHANGE
-  ========================== */
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target
 
@@ -51,593 +70,303 @@ export default function Contact() {
     }))
   }
 
-  /* =========================
-     FORM SUBMIT
-  ========================== */
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log("Form submitted:", formData)
+    const recipient = 'phoemelakylesebastian@gmail.com'
 
-    setSubmitted(true)
+    const subject = encodeURIComponent(
+      `Portfolio Inquiry from ${formData.name}`,
+    )
 
-    setTimeout(() => {
-      setSubmitted(false)
+    const body = encodeURIComponent(
+      `Hello Phoemela Kyle,\n\n${formData.message}\n\nName: ${formData.name}\nEmail: ${formData.email}`,
+    )
 
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      })
-    }, 3000)
+    const mailtoLink =
+      `mailto:${recipient}?subject=${subject}&body=${body}`
+
+    setIsOpeningEmail(true)
+    window.location.href = mailtoLink
   }
-
-  /* =========================
-     SOCIAL LINKS
-  ========================== */
-  const socialLinks = [
-    {
-      icon: Mail,
-      label: "Email",
-      description: "Send me an email",
-      href: "mailto:phoemelakylesebastian@gmail.com",
-      color: "group-hover:text-red-500",
-      iconBg: "group-hover:bg-red-500/10",
-    },
-    {
-      icon: LinkedInIcon,
-      label: "LinkedIn",
-      description: "Connect with me",
-      href: "https://www.linkedin.com/in/phoemela-kyle-sebastian-358a00349/",
-      color: "group-hover:text-blue-500",
-      iconBg: "group-hover:bg-blue-500/10",
-    },
-    {
-      icon: Code2,
-      label: "GitHub",
-      description: "View my projects",
-      href: "https://github.com/phoemelakyle",
-      color: "group-hover:text-foreground",
-      iconBg: "group-hover:bg-foreground/10",
-    },
-  ]
 
   return (
     <section
       id="contact"
-      className="py-24 px-6 bg-muted/5"
-    >
-      <div className="max-w-5xl mx-auto">
+className="relative isolate min-h-screen overflow-hidden bg-slate-50 px-4 pb-16 pt-0 text-slate-900 sm:px-6 sm:pb-20 sm:pt-0 md:px-8 md:pb-24 md:pt-0"
+>
+      {/* DECORATIVE BACKGROUND */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      >
+        <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-purple-200/30 blur-[120px]" />
 
-        {/* =========================
-            SECTION HEADER
-        ========================== */}
-        <div className="mb-16 text-center">
+        <div className="absolute -right-32 top-[30rem] h-96 w-96 rounded-full bg-fuchsia-200/25 blur-[130px]" />
 
-          <div
-            className="
-              inline-flex
-              items-center
-              gap-2
-              px-4
-              py-2
-              mb-5
-              rounded-full
-              border
-              border-border
-              bg-card
-              text-sm
-              text-muted-foreground
-            "
-          >
-            <MessageSquare className="w-4 h-4 text-accent" />
-            Get In Touch
-          </div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(243,232,255,0.45),transparent_60%)]" />
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-5">
-            Let&apos;s Work Together
-          </h2>
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage:
+              'radial-gradient(#64748b 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+      </div>
 
-          <div className="w-12 h-1 bg-accent rounded-full mx-auto mb-6" />
-
-          <p
-            className="
-              text-lg
-              text-foreground/60
-              max-w-2xl
-              mx-auto
-              leading-relaxed
-            "
-          >
-            Have a project, opportunity, or idea in mind? I&apos;d love to
-            hear from you and explore how we can work together.
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
+        {/* HEADER */}
+        <header className="mb-12 sm:mb-14">
+          <p className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-purple-100 bg-gradient-to-r from-purple-50 to-fuchsia-50 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-purple-700 sm:px-4 sm:text-[11px] sm:tracking-[0.2em]">
+            <Sparkles className="h-3.5 w-3.5" />
+            Let&apos;s Connect
           </p>
 
-        </div>
+          <h2 className="mb-5 max-w-4xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-6xl">
+            Let&apos;s Build Something{' '}
+            <span className="bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent">
+              Amazing.
+            </span>
 
+            <span className="mt-3 block bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-500 bg-clip-text text-base font-semibold tracking-normal text-transparent sm:text-lg md:text-xl">
+              Ideas, collaboration &amp; opportunities
+            </span>
+          </h2>
 
-        {/* =========================
-            MAIN CONTACT GRID
-        ========================== */}
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8">
+          <div className="h-1 w-20 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600" />
 
-          {/* =========================
-              CONTACT FORM
-          ========================== */}
-          <div
-            className="
-              p-8
-              md:p-10
-              rounded-2xl
-              border
-              border-border
-              bg-card
-              shadow-sm
-              hover:shadow-lg
-              transition-all
-              duration-300
-            "
-          >
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
+            Have an idea, a project, or an exciting opportunity?
+            Let&apos;s connect, exchange ideas, and turn your vision
+            into something meaningful.
+          </p>
 
-            {/* Form Header */}
-            <div className="flex items-center gap-4 mb-8">
-
-              <div
-                className="
-                  w-12
-                  h-12
-                  rounded-xl
-                  bg-accent/10
-                  flex
-                  items-center
-                  justify-center
-                "
-              >
-                <Send className="w-5 h-5 text-accent" />
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold">
-                  Send Me a Message
-                </h3>
-
-                <p className="text-sm text-muted-foreground mt-1">
-                  I&apos;ll get back to you as soon as possible.
-                </p>
-              </div>
-
+          {/* HIGHLIGHTS */}
+          <div className="mt-7 flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3.5 py-2 text-xs font-medium text-slate-600 shadow-sm sm:text-sm">
+              <Zap className="h-4 w-4 text-amber-500" />
+              Innovation-driven
             </div>
 
+            <div className="flex items-center gap-2 rounded-full border border-purple-100 bg-white/80 px-3.5 py-2 text-xs font-medium text-slate-600 shadow-sm sm:text-sm">
+              <Bot className="h-4 w-4 text-purple-600" />
+              Tech-focused
+            </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-5"
-            >
+            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3.5 py-2 text-xs font-medium text-slate-600 shadow-sm sm:text-sm">
+              <ShieldCheck className="h-4 w-4 text-emerald-500" />
+              Professional
+            </div>
+          </div>
+        </header>
 
-              {/* =========================
-                  NAME
-              ========================== */}
-              <div>
+        {/* MAIN CONTACT GRID */}
+        <div className="grid items-start gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+          {/* CONTACT FORM */}
+          <div className="group/form relative">
+            <div className="absolute -inset-px rounded-[28px] bg-gradient-to-br from-purple-300/70 via-violet-200/50 to-fuchsia-200/60 opacity-70 blur-[1px] transition-opacity duration-500 group-hover/form:opacity-100" />
 
-                <label
-                  htmlFor="name"
-                  className="
-                    block
-                    text-sm
-                    font-medium
-                    text-foreground
-                    mb-2
-                  "
-                >
-                  Your Name
-                </label>
-
-                <div className="relative">
-
-                  <User
-                    className="
-                      absolute
-                      left-4
-                      top-1/2
-                      -translate-y-1/2
-                      w-5
-                      h-5
-                      text-muted-foreground
-                      pointer-events-none
-                    "
-                  />
-
-                  <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    autoComplete="name"
-                    className="
-                      w-full
-                      pl-12
-                      pr-4
-                      py-3.5
-                      bg-background
-                      border
-                      border-border
-                      rounded-xl
-                      text-foreground
-                      placeholder:text-foreground/30
-                      focus:outline-none
-                      focus:border-accent
-                      focus:ring-4
-                      focus:ring-accent/10
-                      transition-all
-                    "
-                    placeholder="Your name"
-                  />
-
+            <div className="relative rounded-[27px] border border-white/80 bg-white/95 p-5 shadow-xl shadow-purple-950/[0.04] backdrop-blur-xl sm:p-8 lg:p-9">
+              <div className="mb-8 flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-fuchsia-600 text-white shadow-lg shadow-purple-500/25">
+                  <Send className="h-5 w-5" />
                 </div>
 
-              </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+                      Send a Message
+                    </h3>
 
+                    <span className="rounded-full border border-purple-100 bg-purple-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-purple-700">
+                      Let&apos;s connect
+                    </span>
+                  </div>
 
-              {/* =========================
-                  EMAIL
-              ========================== */}
-              <div>
-
-                <label
-                  htmlFor="email"
-                  className="
-                    block
-                    text-sm
-                    font-medium
-                    text-foreground
-                    mb-2
-                  "
-                >
-                  Email Address
-                </label>
-
-                <div className="relative">
-
-                  <Mail
-                    className="
-                      absolute
-                      left-4
-                      top-1/2
-                      -translate-y-1/2
-                      w-5
-                      h-5
-                      text-muted-foreground
-                      pointer-events-none
-                    "
-                  />
-
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    autoComplete="email"
-                    className="
-                      w-full
-                      pl-12
-                      pr-4
-                      py-3.5
-                      bg-background
-                      border
-                      border-border
-                      rounded-xl
-                      text-foreground
-                      placeholder:text-foreground/30
-                      focus:outline-none
-                      focus:border-accent
-                      focus:ring-4
-                      focus:ring-accent/10
-                      transition-all
-                    "
-                    placeholder="you@example.com"
-                  />
-
+                  <p className="mt-1.5 text-sm leading-6 text-slate-500">
+                    Share your ideas and let&apos;s explore the possibilities.
+                  </p>
                 </div>
-
               </div>
 
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* NAME */}
+                <div>
+                  <label
+                    htmlFor="contact-name"
+                    className="mb-2 block text-sm font-semibold text-slate-700"
+                  >
+                    Your name
+                  </label>
 
-              {/* =========================
-                  MESSAGE
-              ========================== */}
-              <div>
+                  <div className="group/input relative">
+                    <User className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-400 transition-colors group-focus-within/input:text-purple-600" />
 
-                <label
-                  htmlFor="message"
-                  className="
-                    block
-                    text-sm
-                    font-medium
-                    text-foreground
-                    mb-2
-                  "
-                >
-                  Message
-                </label>
-
-                <div className="relative">
-
-                  <MessageSquare
-                    className="
-                      absolute
-                      left-4
-                      top-4
-                      w-5
-                      h-5
-                      text-muted-foreground
-                      pointer-events-none
-                    "
-                  />
-
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={6}
-                    className="
-                      w-full
-                      pl-12
-                      pr-4
-                      py-3.5
-                      bg-background
-                      border
-                      border-border
-                      rounded-xl
-                      text-foreground
-                      placeholder:text-foreground/30
-                      focus:outline-none
-                      focus:border-accent
-                      focus:ring-4
-                      focus:ring-accent/10
-                      transition-all
-                      resize-none
-                    "
-                    placeholder="Tell me about your project or opportunity..."
-                  />
-
-                </div>
-
-              </div>
-
-
-              {/* =========================
-                  SUBMIT BUTTON
-              ========================== */}
-              <button
-                type="submit"
-                className="
-                  group
-                  w-full
-                  flex
-                  items-center
-                  justify-center
-                  gap-2
-                  px-6
-                  py-3.5
-                  bg-foreground
-                  text-background
-                  font-semibold
-                  rounded-xl
-                  hover:bg-accent
-                  hover:text-white
-                  hover:-translate-y-0.5
-                  shadow-sm
-                  hover:shadow-lg
-                  transition-all
-                  duration-300
-                "
-              >
-
-                {submitted ? (
-                  <>
-                    <CheckCircle2 className="w-5 h-5" />
-                    Message Sent!
-                  </>
-                ) : (
-                  <>
-                    <Send
-                      className="
-                        w-5
-                        h-5
-                        transition-transform
-                        duration-300
-                        group-hover:translate-x-1
-                      "
+                    <input
+                      id="contact-name"
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      autoComplete="name"
+                      placeholder="Enter your full name"
+                      required
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50/70 py-3.5 pl-12 pr-4 text-sm text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 hover:border-purple-200 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-500/10"
                     />
+                  </div>
+                </div>
 
-                    Send Message
-                  </>
-                )}
+                {/* EMAIL */}
+                <div>
+                  <label
+                    htmlFor="contact-email"
+                    className="mb-2 block text-sm font-semibold text-slate-700"
+                  >
+                    Email address
+                  </label>
 
-              </button>
+                  <div className="group/input relative">
+                    <Mail className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-400 transition-colors group-focus-within/input:text-purple-600" />
 
-            </form>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      required
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50/70 py-3.5 pl-12 pr-4 text-sm text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 hover:border-purple-200 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-500/10"
+                    />
+                  </div>
+                </div>
 
+                {/* MESSAGE */}
+                <div>
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <label
+                      htmlFor="contact-message"
+                      className="block text-sm font-semibold text-slate-700"
+                    >
+                      Your message
+                    </label>
+
+                    <span className="text-xs tabular-nums text-slate-400">
+                      {formData.message.length}/3000
+                    </span>
+                  </div>
+
+                  <div className="group/input relative">
+                    <MessageSquare className="pointer-events-none absolute left-4 top-4 h-[18px] w-[18px] text-slate-400 transition-colors group-focus-within/input:text-purple-600" />
+
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      rows={5}
+                      maxLength={3000}
+                      placeholder="Tell me about your project, idea, or opportunity..."
+                      required
+                      className="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50/70 py-3.5 pl-12 pr-4 text-sm leading-6 text-slate-900 outline-none transition-all duration-300 placeholder:text-slate-400 hover:border-purple-200 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-500/10"
+                    />
+                  </div>
+                </div>
+
+                {/* SUBMIT BUTTON */}
+                <button
+                  type="submit"
+                  className="group/button relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 bg-[length:200%_100%] px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-purple-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-right hover:shadow-xl hover:shadow-purple-500/25 focus:outline-none focus:ring-4 focus:ring-purple-500/20 active:translate-y-0"
+                >
+                  <span className="absolute inset-0 bg-white/0 transition-colors group-hover/button:bg-white/[0.06]" />
+
+                  {isOpeningEmail ? (
+                    <>
+                      <CheckCircle2 className="relative h-5 w-5" />
+                      <span className="relative">Email App Requested</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="relative h-[18px] w-[18px] transition-transform duration-300 group-hover/button:translate-x-1" />
+                      <span className="relative">Send Your Message</span>
+                      <ArrowRight className="relative h-4 w-4 opacity-70 transition-all duration-300 group-hover/button:translate-x-1 group-hover/button:opacity-100" />
+                    </>
+                  )}
+                </button>
+
+                <p
+                  aria-live="polite"
+                  className="text-center text-xs leading-5 text-slate-400"
+                >
+                  {isOpeningEmail
+                    ? 'Your email app should open with your message prepared. Review and send it there.'
+                    : 'Your email app will open so you can review and send your message.'}
+                </p>
+              </form>
+            </div>
           </div>
 
-
-          {/* =========================
-              RIGHT COLUMN
-          ========================== */}
+          {/* RIGHT COLUMN */}
           <div className="space-y-5">
-
-            {/* =========================
-                CONTACT INFORMATION
-            ========================== */}
-            <div
-              className="
-                p-7
-                rounded-2xl
-                border
-                border-border
-                bg-card
-                hover:shadow-lg
-                transition-all
-                duration-300
-              "
-            >
-
-              <div className="flex items-center gap-4 mb-6">
-
-                <div
-                  className="
-                    w-11
-                    h-11
-                    rounded-xl
-                    bg-accent/10
-                    flex
-                    items-center
-                    justify-center
-                  "
-                >
-                  <Mail className="w-5 h-5 text-accent" />
+            {/* CONTACT INFORMATION */}
+            <div className="rounded-[26px] border border-slate-200/80 bg-white/90 p-5 shadow-lg shadow-slate-900/[0.025] backdrop-blur-sm transition-all duration-300 hover:border-purple-200 hover:shadow-xl hover:shadow-purple-950/[0.04] sm:p-7">
+              <div className="mb-6 flex items-center gap-3.5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-50 to-violet-100 text-purple-600">
+                  <Mail className="h-5 w-5" />
                 </div>
 
                 <div>
-
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold tracking-tight text-slate-900">
                     Contact Information
                   </h3>
-
-                  <p className="text-sm text-muted-foreground">
-                    Let&apos;s start a conversation.
+                  <p className="mt-1 text-sm text-slate-500">
+                    The easiest way to reach me.
                   </p>
-
                 </div>
-
               </div>
-
 
               <a
                 href="mailto:phoemelakylesebastian@gmail.com"
-                className="
-                  group
-                  flex
-                  items-center
-                  justify-between
-                  gap-4
-                  p-4
-                  rounded-xl
-                  border
-                  border-border
-                  bg-background
-                  hover:border-accent/50
-                  hover:bg-accent/5
-                  transition-all
-                  duration-300
-                "
+                className="group/email flex min-w-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 transition-all duration-300 hover:border-purple-200 hover:bg-purple-50/60 sm:p-4"
               >
-
-                <div className="flex items-center gap-3 min-w-0">
-
-                  <div
-                    className="
-                      w-9
-                      h-9
-                      rounded-lg
-                      bg-accent/10
-                      flex
-                      items-center
-                      justify-center
-                      flex-shrink-0
-                    "
-                  >
-                    <Mail className="w-4 h-4 text-accent" />
-                  </div>
-
-                  <div className="min-w-0">
-
-                    <p className="text-xs text-muted-foreground mb-1">
-                      Email
-                    </p>
-
-                    <p className="text-sm font-medium truncate">
-                      phoemelakylesebastian@gmail.com
-                    </p>
-
-                  </div>
-
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-purple-600 shadow-sm ring-1 ring-purple-100">
+                  <Mail className="h-[18px] w-[18px]" />
                 </div>
 
-                <ArrowUpRight
-                  className="
-                    w-4
-                    h-4
-                    text-muted-foreground
-                    flex-shrink-0
-                    transition-all
-                    duration-300
-                    group-hover:text-accent
-                    group-hover:translate-x-0.5
-                    group-hover:-translate-y-0.5
-                  "
-                />
+                <div className="min-w-0 flex-1">
+                  <p className="mb-1 text-xs font-medium text-slate-500">
+                    Email address
+                  </p>
+                  <p className="break-all text-sm font-semibold leading-5 text-slate-800">
+                    phoemelakylesebastian@gmail.com
+                  </p>
+                </div>
 
+                <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-400 transition-all duration-300 group-hover/email:-translate-y-0.5 group-hover/email:translate-x-0.5 group-hover/email:text-purple-600" />
               </a>
-
             </div>
 
-
-            {/* =========================
-                SOCIAL LINKS
-            ========================== */}
-            <div
-              className="
-                p-7
-                rounded-2xl
-                border
-                border-border
-                bg-card
-                hover:shadow-lg
-                transition-all
-                duration-300
-              "
-            >
-
-              <div className="flex items-center gap-3 mb-5">
-
-                <div
-                  className="
-                    w-10
-                    h-10
-                    rounded-xl
-                    bg-accent/10
-                    flex
-                    items-center
-                    justify-center
-                  "
-                >
-                  <Code2 className="w-5 h-5 text-accent" />
+            {/* SOCIAL LINKS */}
+            <div className="rounded-[26px] border border-slate-200/80 bg-white/90 p-5 shadow-lg shadow-slate-900/[0.025] backdrop-blur-sm transition-all duration-300 hover:border-purple-200 hover:shadow-xl hover:shadow-purple-950/[0.04] sm:p-7">
+              <div className="mb-5 flex items-center gap-3.5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-50 to-fuchsia-100 text-purple-600">
+                  <Code2 className="h-5 w-5" />
                 </div>
 
                 <div>
-
-                  <h3 className="font-bold">
-                    Connect With Me
+                  <h3 className="font-bold tracking-tight text-slate-900">
+                    Find Me Online
                   </h3>
-
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Find me online
+                  <p className="mt-1 text-sm text-slate-500">
+                    Explore my work and connect.
                   </p>
-
                 </div>
-
               </div>
 
-
               <div className="space-y-3">
-
                 {socialLinks.map((link) => {
                   const Icon = link.icon
 
@@ -647,160 +376,106 @@ export default function Contact() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`
-                        group
-                        flex
-                        items-center
-                        justify-between
-                        p-3.5
-                        rounded-xl
-                        border
-                        border-border
-                        bg-background
-                        hover:border-accent/30
-                        hover:-translate-y-0.5
-                        transition-all
-                        duration-300
-                        ${link.color}
-                      `}
+                      aria-label={`${link.label}: ${link.description}`}
+                      className="group/social flex items-center gap-3 rounded-2xl border border-transparent bg-slate-50/80 p-3.5 transition-all duration-300 hover:translate-x-1 hover:border-purple-100 hover:bg-white hover:shadow-sm sm:p-4"
                     >
-
-                      <div className="flex items-center gap-3">
-
-                        <div
-                          className={`
-                            w-10
-                            h-10
-                            rounded-lg
-                            bg-muted/50
-                            flex
-                            items-center
-                            justify-center
-                            transition-all
-                            duration-300
-                            ${link.iconBg}
-                          `}
-                        >
-                          <Icon className="w-5 h-5" />
-                        </div>
-
-                        <div>
-
-                          <p className="text-sm font-semibold text-foreground">
-                            {link.label}
-                          </p>
-
-                          <p className="text-xs text-muted-foreground">
-                            {link.description}
-                          </p>
-
-                        </div>
-
+                      <div
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${link.iconStyle}`}
+                      >
+                        <Icon className="h-[18px] w-[18px]" />
                       </div>
 
-                      <ArrowUpRight
-                        className="
-                          w-4
-                          h-4
-                          text-muted-foreground
-                          transition-all
-                          duration-300
-                          group-hover:translate-x-0.5
-                          group-hover:-translate-y-0.5
-                        "
-                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-slate-800">
+                          {link.label}
+                        </p>
+                        <p className="mt-0.5 text-xs text-slate-500">
+                          {link.description}
+                        </p>
+                      </div>
 
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-400 transition-all duration-300 group-hover/social:-translate-y-0.5 group-hover/social:translate-x-0.5 group-hover/social:text-purple-600" />
                     </a>
                   )
                 })}
-
               </div>
-
             </div>
 
-
-            {/* =========================
-                RESPONSE TIME
-            ========================== */}
-            <div
-              className="
-                group
-                relative
-                overflow-hidden
-                p-7
-                rounded-2xl
-                bg-accent/5
-                border
-                border-accent/20
-                hover:border-accent/40
-                hover:shadow-lg
-                transition-all
-                duration-300
-              "
-            >
-
-              {/* Decorative Circle */}
+            {/* RESPONSE TIME */}
+            <div className="group/status relative isolate overflow-hidden rounded-[26px] border border-purple-100/80 bg-gradient-to-br from-purple-50 via-white to-fuchsia-50 p-5 shadow-lg shadow-purple-950/[0.025] transition-all duration-300 hover:border-purple-200 hover:shadow-xl hover:shadow-purple-950/[0.05] sm:p-7">
               <div
-                className="
-                  absolute
-                  -right-8
-                  -top-8
-                  w-28
-                  h-28
-                  rounded-full
-                  bg-accent/10
-                  group-hover:scale-125
-                  transition-transform
-                  duration-500
-                "
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-10 -top-10 -z-10 h-36 w-36 rounded-full bg-fuchsia-200/40 blur-3xl transition-transform duration-500 group-hover/status:scale-150"
               />
 
-              <div className="relative flex items-start gap-4">
-
-                <div
-                  className="
-                    w-11
-                    h-11
-                    rounded-xl
-                    bg-accent
-                    flex
-                    items-center
-                    justify-center
-                    flex-shrink-0
-                  "
-                >
-                  <Clock3 className="w-5 h-5 text-white" />
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-fuchsia-600 text-white shadow-lg shadow-purple-500/20">
+                  <Clock3 className="h-5 w-5" />
                 </div>
 
-                <div>
+                <div className="min-w-0 flex-1">
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-purple-700">
+                      Response Time
+                    </p>
+                    <span className="rounded-full border border-emerald-200/80 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                      Stay Connected
+                    </span>
+                  </div>
 
-                  <p
-                    className="
-                      text-xs
-                      font-semibold
-                      text-accent
-                      uppercase
-                      tracking-widest
-                      mb-2
-                    "
-                  >
-                    Response Time
+                  <h3 className="text-lg font-bold tracking-tight text-slate-900">
+                    Every great idea starts with a conversation.
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Send me a message, and I&apos;ll respond as soon as I
+                    can. I look forward to hearing from you.
                   </p>
-
-                  <p className="text-sm text-foreground/70 leading-relaxed">
-                    I typically respond to inquiries within 24 hours.
-                  </p>
-
                 </div>
-
               </div>
-
             </div>
 
-          </div>
+            {/* INNOVATION CARD */}
+            <div className="relative overflow-hidden rounded-[26px] border border-purple-100/80 bg-white p-5 shadow-sm transition-all duration-300 hover:border-purple-200 hover:shadow-md hover:shadow-purple-500/5 sm:p-6">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-purple-100/70 blur-2xl"
+              />
 
+              <div className="relative flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-50 to-fuchsia-100 text-purple-600">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-bold text-slate-800">
+                    Ideas into Innovation
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    Creative thinking. Smart solutions. Meaningful results.
+                  </p>
+                </div>
+
+                <ArrowUpRight className="h-4 w-4 shrink-0 text-purple-400" />
+              </div>
+            </div>
+          </div>
         </div>
 
+        {/* FOOTER */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-purple-100/80 pt-7 text-center sm:mt-16 sm:flex-row sm:text-left">
+          <p className="text-xs leading-5 text-slate-400 sm:text-sm">
+            Designed with purpose. Built for meaningful connections.
+          </p>
+
+          <a
+            href="mailto:phoemelakylesebastian@gmail.com"
+            className="group/footer inline-flex items-center gap-2 text-sm font-semibold text-purple-600 transition-colors hover:text-fuchsia-600"
+          >
+            Let&apos;s talk
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover/footer:-translate-y-0.5 group-hover/footer:translate-x-0.5" />
+          </a>
+        </div>
       </div>
     </section>
   )
